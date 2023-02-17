@@ -1,6 +1,6 @@
 
 
-const LocationPermissionsIOS = () => {
+const LocationPermissionsAndroid = () => {
     return (
         <div
             style={{
@@ -15,10 +15,10 @@ const LocationPermissionsIOS = () => {
         <div
             style={{border: '2px solid black'}}
         >
-            LOCATION PERMISSIONS IOS
+            LOCATION PERMISSIONS ANDROID
         </div>
     </div>
     )
 }
 
-export default LocationPermissionsIOS
+export default LocationPermissionsAndroid

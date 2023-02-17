@@ -2,6 +2,7 @@ import {useEffect} from 'react'
 
 import LocationPermissions from './LocationPermissions'
 import LocationPermissionsIOS from './LocationPermissionsIOS'
+import LocationPermissionsAndroid from './LocationPermissionsAndroid'
 import GlowstikMap from './GlowstikMap'
 import RequestButton from './RequestButton'
 
@@ -18,16 +19,19 @@ const Navigation = () => {
     return (
         <Routes>
             <Route path='requestbutton' exact element={
-            <RequestButton />
+                <RequestButton />
             }/>
             <Route path='locationpermissions' exact element={
-            <LocationPermissions />
+                <LocationPermissions />
             }/>
-            <Route path='locationpermissionsIOS' exact element={
-            <LocationPermissionsIOS />
+            <Route path='locationpermissionsios' exact element={
+                <LocationPermissionsIOS />
+            }/>
+            <Route path='locationpermissionsandroid' exact element={
+                <LocationPermissionsAndroid />
             }/>
             <Route path='/*' exact element={
-            <GlowstikMap />
+                <GlowstikMap />
             }/>
       </Routes>
     )

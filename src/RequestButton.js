@@ -1,9 +1,24 @@
+import {useRef, useEffect} from "react"
+
 import {useNavigate} from "react-router-dom"
 
 
 const RequestButton = () => {
 
     const navigate = useNavigate()
+
+    // Holding boolean value to determine whether device is ios
+	const iosDeviceRef = useRef(null)
+    // Holding boolean value to determine whether device is android
+	const androidDeviceRef = useRef(null)
+
+    useEffect(() => {
+        let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+		iosDeviceRef.current = isIOS
+
+        const isAndroid = /Android/i.test(navigator.userAgent)
+		androidDeviceRef.current = isAndroid
+    }, [])
 
     const locationRequest = async () => {
         try{
@@ -15,7 +30,15 @@ const RequestButton = () => {
         }
         catch(error) {
         console.log(error)
-        navigate('/locationpermissions')
+        if(iosDeviceRef.current) {
+            navigate('/locationpermissionsios')
+        }
+        else if(androidDeviceRef.current) {
+            navigate('/locationpermissionsandroid')
+        }
+        else {
+            navigate('/locationpermissions')
+        }
         }
     }
 
@@ -32,6 +55,10 @@ const RequestButton = () => {
             }}
         >
             <button
+                style={{
+                    position: 'absolute',
+                    alignSelf: 'center'
+                }}
                 onClick={() => {
                     locationRequest()
                 }}
