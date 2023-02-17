@@ -15,8 +15,6 @@ const Navigation = () => {
 
     const navigate = useNavigate()
 
-    const [locationReceived, setLocationReceived] = useState(false)
-
     useEffect(()=> {
         navigate('/requestbutton')
 
@@ -30,10 +28,10 @@ const Navigation = () => {
     return (
         <Routes>
             <Route path='requestbutton' exact element={
-                <RequestButton iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} setLocationReceived={setLocationReceived} />
+                <RequestButton />
             }/>
             <Route path='locationpermissions' exact element={
-                <LocationPermissions locationReceived={locationReceived} iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} />
+                <LocationPermissions iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} />
             }/>
             <Route path='/*' exact element={
                 <GlowstikMap />

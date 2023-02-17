@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom"
 
 // TODO: Have interval - at the start, register geo watch - at the end, de-register watch and run request - if that returns denied, re-route to LocationPermissions
 
-const RequestButton = ({iosDeviceRef, androidDeviceRef, setLocationReceived}) => {
+const RequestButton = () => {
 
     const navigate = useNavigate()
 
@@ -18,15 +18,6 @@ const RequestButton = ({iosDeviceRef, androidDeviceRef, setLocationReceived}) =>
         }
         catch(error) {
         console.log(error)
-        // if(iosDeviceRef.current) {
-        //     navigate('/locationpermissionsios')
-        // }
-        // else if(androidDeviceRef.current) {
-        //     navigate('/locationpermissionsandroid')
-        // }
-        // else {
-        //     navigate('/locationpermissions')
-        // }
         navigate('/locationpermissions')
         }
     }
