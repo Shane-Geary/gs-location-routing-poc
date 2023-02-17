@@ -1,4 +1,4 @@
-import {useRef, useEffect} from "react"
+import {useRef, useEffect, useState} from "react"
 
 import {useNavigate} from "react-router-dom"
 
@@ -12,6 +12,8 @@ const RequestButton = () => {
     // Holding boolean value to determine whether device is android
 	const androidDeviceRef = useRef(null)
 
+    const [loading, setLoading] = useState(false)
+
     useEffect(() => {
         let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
 		iosDeviceRef.current = isIOS
@@ -21,14 +23,17 @@ const RequestButton = () => {
     }, [])
 
     const locationRequest = async () => {
+        setLoading(true)
         try{
         const geoPosition = await new Promise((resolve, reject) => {
             navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
         })
+        setLoading(false)
         console.log(geoPosition)
         navigate('/')
         }
         catch(error) {
+        setLoading(false)
         console.log(error)
         if(iosDeviceRef.current) {
             navigate('/locationpermissionsios')
@@ -63,7 +68,9 @@ const RequestButton = () => {
                     locationRequest()
                 }}
             >
-                Request Location
+                {
+                    loading ? <>Loading...</> : <>Request Location</>
+                }
             </button>
         </div>
     )
