@@ -1,6 +1,6 @@
 
 
-const LocationPermissions = () => {
+const LocationPermissions = ({iosDeviceRef, androidDeviceRef}) => {
     return (
         <div
             style={{
@@ -15,7 +15,14 @@ const LocationPermissions = () => {
             <div
                 style={{border: '2px solid black'}}
             >
-                LOCATION PERMISSIONS
+                {iosDeviceRef.current && 'LOCATION PERMISSIONS IOS'}
+                {androidDeviceRef.current && 'LOCATION PERMSSIONS ANDROID'}
+                {
+                    !iosDeviceRef.current && !androidDeviceRef.current ?
+                    'LOCATION PERMISSIONS'
+                    :
+                    null
+                }
             </div>
         </div>
     )

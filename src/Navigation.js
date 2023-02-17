@@ -1,8 +1,6 @@
-import {useEffect} from 'react'
+import {useEffect, useRef, useState} from 'react'
 
 import LocationPermissions from './LocationPermissions'
-import LocationPermissionsIOS from './LocationPermissionsIOS'
-import LocationPermissionsAndroid from './LocationPermissionsAndroid'
 import GlowstikMap from './GlowstikMap'
 import RequestButton from './RequestButton'
 
@@ -10,25 +8,32 @@ import {Routes, Route, useNavigate} from 'react-router-dom'
 
 const Navigation = () => {
 
+    // Holding boolean value to determine whether device is ios
+	const iosDeviceRef = useRef(null)
+    // Holding boolean value to determine whether device is android
+	const androidDeviceRef = useRef(null)
+
     const navigate = useNavigate()
+
+    const [locationReceived, setLocationReceived] = useState(false)
 
     useEffect(()=> {
         navigate('/requestbutton')
+
+        let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+		iosDeviceRef.current = isIOS
+
+        const isAndroid = /Android/i.test(navigator.userAgent)
+		androidDeviceRef.current = isAndroid
     }, [])
 
     return (
         <Routes>
             <Route path='requestbutton' exact element={
-                <RequestButton />
+                <RequestButton iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} setLocationReceived={setLocationReceived} />
             }/>
             <Route path='locationpermissions' exact element={
-                <LocationPermissions />
-            }/>
-            <Route path='locationpermissionsios' exact element={
-                <LocationPermissionsIOS />
-            }/>
-            <Route path='locationpermissionsandroid' exact element={
-                <LocationPermissionsAndroid />
+                <LocationPermissions locationReceived={locationReceived} iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} />
             }/>
             <Route path='/*' exact element={
                 <GlowstikMap />
