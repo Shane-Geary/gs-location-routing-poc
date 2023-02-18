@@ -1,4 +1,4 @@
-import {useRef, useEffect, useState} from "react"
+import {useEffect, useState} from "react"
 
 import {useNavigate} from "react-router-dom"
 
@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom"
 const RequestButton = () => {
 
     const navigate = useNavigate()
+
+    const [geoWatchID, setGeoWatchID] = useState({id: 0})
 
     const locationRequest = async () => {
         try{
@@ -22,6 +24,27 @@ const RequestButton = () => {
         }
     }
 
+    useEffect(() => {
+        const watchId = navigator.geolocation.watchPosition((success, error) => {
+            console.log(success)
+            setGeoWatchID({id: success})
+        })
+        const geoWatchInterval = setInterval(() => {
+            locationRequest()
+            navigator.geolocation.clearWatch(watchId)
+        }, 5000)
+
+        console.log(geoWatchInterval)
+        console.log(geoWatchID)
+
+        return () => {
+            clearInterval(geoWatchInterval)
+            navigator.geolocation.clearWatch(watchId)
+        }
+    }, [])
+
+    // console.log(geoWatchID)
+
     return (
         <div
             style={{
@@ -34,6 +57,13 @@ const RequestButton = () => {
                 border: '2px solid black'
             }}
         >
+            <div
+                style={{
+                    position: 'absolute',
+                }}
+            >
+                Watch ID: {geoWatchID.id.toString()}
+            </div>
             <button
                 style={{
                     position: 'absolute',

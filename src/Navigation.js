@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef} from 'react'
 
 import LocationPermissions from './LocationPermissions'
 import GlowstikMap from './GlowstikMap'
