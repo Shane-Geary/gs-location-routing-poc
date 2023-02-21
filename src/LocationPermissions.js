@@ -1,7 +1,14 @@
 import {useEffect} from "react"
 
+import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
+
 const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermissionsMountedRef}) => {
     console.log('location screen')
+
+    // Call useStyles hook and store the return value in a const
+	const {classes} = useStyles(
+		{}
+	)
 
     useEffect(() => {
         locationPermissionsMountedRef.current = true
@@ -11,19 +18,8 @@ const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermission
     }, [])
 
     return (
-        <div
-            style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignContent: 'center',
-                height: '100%',
-                width: '100%'
-            }}
-        >
-            <div
-                style={{border: '2px solid black'}}
-            >
+        <div className={classes.wrapper}>
+            <div className={classes.container}>
                 {iosDeviceRef.current && 'LOCATION PERMISSIONS IOS'}
                 {androidDeviceRef.current && 'LOCATION PERMSSIONS ANDROID'}
                 {
@@ -36,5 +32,17 @@ const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermission
         </div>
     )
 }
+
+const useStyles = makeStyles()((_, props) => ({
+    wrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignContent: 'center',
+        height: '100%',
+        width: '100%'
+    },
+    container: {border: '2px solid black'}
+}))
 
 export default LocationPermissions

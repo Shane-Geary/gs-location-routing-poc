@@ -11,7 +11,7 @@ import {Switch} from '@mui/material'
 
 const Navigation = () => {
 
-     // Call useStyles hook and store the return value in a const
+    // Call useStyles hook and store the return value in a const
 	const {classes} = useStyles(
 		{}
 	)
@@ -60,7 +60,7 @@ const Navigation = () => {
                         Coordinates of This Device: {geoWatchID ? [geoWatchID.coords.latitude, ',', geoWatchID.coords.longitude] : '.....'}
                     </div>
                     <div className={classes.tickerCopy}>
-                       <span>Watch Position Tick Count:</span> <span className={classes.id}>{id}</span> {startGeoWatch ? '[5s interval]' : '[PAUSED]'}
+                       <span>Watch Position Tick Count: </span><span className={classes.id}>{id}</span> {startGeoWatch ? '[5s interval]' : '[PAUSED]'}
                     </div>
                     <div className={classes.geoWatchSwitch}>
                         {startGeoWatch ? 'Stop' : 'Start'} Geo Watch: &gt;
