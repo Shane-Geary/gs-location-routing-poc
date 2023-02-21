@@ -1,6 +1,6 @@
 import {useEffect} from "react"
 
-const GlowstikMap = ({mapMountedRef}) => {
+const GlowstikMap = ({mapMountedRef, geoWatchID}) => {
     console.log('MAP')
 
     useEffect(() => {
@@ -21,6 +21,9 @@ const GlowstikMap = ({mapMountedRef}) => {
                 width: '100%'
             }}
         >
+            {/* <div>
+                Coordinates of This Device: {geoWatchID !== null ? [geoWatchID.coords.latitude, ',', geoWatchID.coords.longitude] : '...'}
+            </div> */}
             <div
                 style={{border: '2px solid black'}}
             >

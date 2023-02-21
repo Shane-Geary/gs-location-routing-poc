@@ -31,21 +31,14 @@ const RequestButton = ({geoWatchID}) => {
                 justifyContent: 'center',
                 alignContent: 'center',
                 height: '100%',
-                width: '100%',
-                border: '2px solid black'
+                width: '100%'
             }}
         >
-            <div
-                style={{
-                    position: 'absolute',
-                }}
-            >
-                Watch ID: {geoWatchID !== null ? [geoWatchID.coords.latitude, geoWatchID.coords.longitude] : '...'}
-            </div>
             <button
                 style={{
                     position: 'absolute',
-                    alignSelf: 'center'
+                    alignSelf: 'center',
+                    border: '2px solid black'
                 }}
                 onClick={() => {
                     locationRequest()
