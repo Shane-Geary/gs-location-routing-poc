@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react'
+import {useEffect, useRef, useState, useMemo} from 'react'
 
 import LocationPermissions from './LocationPermissions'
 import GlowstikMap from './GlowstikMap'
@@ -12,6 +12,8 @@ const Navigation = () => {
 	const iosDeviceRef = useRef(null)
     // Holding boolean value to determine whether device is android
 	const androidDeviceRef = useRef(null)
+    const locationPermissionsMountedRef = useRef(false)
+    const mapMountedRef = useRef(false)
 
     const [geoWatchID, setGeoWatchID] = useState(null)
 
@@ -27,35 +29,25 @@ const Navigation = () => {
 		androidDeviceRef.current = isAndroid
     }, [])
 
-    const locationRequest = async () => {
-        try{
-            const geoPosition = await new Promise((resolve, reject) => {
-                navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
-            })
-            console.log(geoPosition)
-            navigate('/')
-        }
-        catch(error) {
-            console.log(error)
-            navigate('/locationpermissions')
-        }
-    }
-
     const geoWatchTimer = () => {
         const id = navigator.geolocation.watchPosition(
             (success) => {
                 console.log(success)
                 setGeoWatchID(success)
-                navigate('/')
+                // if(!mapMountedRef.current) {
+                    navigate('/')
+                // }
+                navigator.geolocation.clearWatch(id)
             },
             (error) => {
                 console.log(error)
-                navigate('/locationpermissions')
+                // if(!locationPermissionsMountedRef.current) {
+                    navigate('/locationpermissions')
+                // }
             }
         )
-        locationRequest()
         console.log('watch tick: ', id)
-        console.log(geoWatchID)
+        console.log(mapMountedRef)
     }
 
     useEffect(() => {
@@ -70,17 +62,23 @@ const Navigation = () => {
         }
     }, [geoWatchID])
 
+    const RequestButtonMemo = useMemo(() => (
+        <RequestButton geoWatchID={geoWatchID} />
+    ), [geoWatchID])
+
+    const LocationPermissionsMemo = useMemo(() => (
+        <LocationPermissions iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} locationPermissionsMountedRef={locationPermissionsMountedRef} />
+    ), [iosDeviceRef, androidDeviceRef, locationPermissionsMountedRef])
+
+    const GlowstikMapMemo = useMemo(() => (
+        <GlowstikMap mapMountedRef={mapMountedRef} />
+    ), [mapMountedRef])
+
     return (
         <Routes>
-            <Route path='requestbutton' exact element={
-                <RequestButton geoWatchID={geoWatchID} />
-            }/>
-            <Route path='locationpermissions' exact element={
-                <LocationPermissions iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} />
-            }/>
-            <Route path='/*' exact element={
-                <GlowstikMap />
-            }/>
+            <Route path='requestbutton' exact element={RequestButtonMemo}/>
+            <Route path='locationpermissions' exact element={LocationPermissionsMemo}/>
+            <Route path='/*' exact element={GlowstikMapMemo}/>
       </Routes>
     )
 }

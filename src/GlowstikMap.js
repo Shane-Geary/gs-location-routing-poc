@@ -1,7 +1,15 @@
+import {useEffect} from "react"
 
-
-const GlowstikMap = () => {
+const GlowstikMap = ({mapMountedRef}) => {
     console.log('MAP')
+
+    useEffect(() => {
+        mapMountedRef.current = true
+        return () => {
+            mapMountedRef.current = false
+        }
+    }, [])
+
     return (
         <div
             style={{

@@ -1,6 +1,15 @@
+import {useEffect} from "react"
 
+const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermissionsMountedRef}) => {
+    console.log('location screen')
 
-const LocationPermissions = ({iosDeviceRef, androidDeviceRef}) => {
+    useEffect(() => {
+        locationPermissionsMountedRef.current = true
+        return () => {
+            locationPermissionsMountedRef.current = false
+        }
+    }, [])
+
     return (
         <div
             style={{

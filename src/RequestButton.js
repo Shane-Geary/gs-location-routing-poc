@@ -8,19 +8,19 @@ const RequestButton = ({geoWatchID}) => {
 
     const navigate = useNavigate()
 
-    // const locationRequest = async () => {
-    //     try{
-    //         const geoPosition = await new Promise((resolve, reject) => {
-    //             navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
-    //         })
-    //         console.log(geoPosition)
-    //         navigate('/')
-    //     }
-    //     catch(error) {
-    //         console.log(error)
-    //         navigate('/locationpermissions')
-    //     }
-    // }
+    const locationRequest = async () => {
+        try{
+            const geoPosition = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
+            })
+            console.log(geoPosition)
+            navigate('/')
+        }
+        catch(error) {
+            console.log(error)
+            navigate('/locationpermissions')
+        }
+    }
 
 
     return (
@@ -47,9 +47,9 @@ const RequestButton = ({geoWatchID}) => {
                     position: 'absolute',
                     alignSelf: 'center'
                 }}
-                // onClick={() => {
-                //     locationRequest()
-                // }}
+                onClick={() => {
+                    locationRequest()
+                }}
             >
                 Request Location
             </button>
