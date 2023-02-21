@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom"
 
 // TODO: Have interval - at the start, register geo watch - at the end, de-register watch and run request - if that returns denied, re-route to LocationPermissions
 
-const RequestButton = ({geoWatchID}) => {
+const RequestButton = () => {
 
     const navigate = useNavigate()
 

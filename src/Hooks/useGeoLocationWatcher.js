@@ -2,7 +2,7 @@ import {useEffect, useState} from "react"
 
 import {useNavigate} from "react-router-dom"
 
-export const useGeoLocationWatcher = (stopGeoWatch) => {
+export const useGeoLocationWatcher = (startGeoWatch) => {
 
     const navigate = useNavigate()
 
@@ -29,17 +29,17 @@ export const useGeoLocationWatcher = (stopGeoWatch) => {
             setId(watchID)
         }
         let watchIDInterval = null
-        if(!stopGeoWatch) {
-            watchIDInterval = setInterval(geoWatchTimer, 3000)
+        if(startGeoWatch) {
+            watchIDInterval = setInterval(geoWatchTimer, 5000)
         }
         console.log(watchIDInterval)
 
         return () => {
             clearInterval(watchIDInterval)
-            navigator.geolocation.clearWatch(watchIDInterval)
+            navigator.geolocation.clearWatch(id)
             console.log('end watch')
         }
-    }, [stopGeoWatch])
+    }, [startGeoWatch])
 
     return {geoWatchID, id}
 }

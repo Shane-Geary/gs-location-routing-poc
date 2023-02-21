@@ -24,11 +24,11 @@ const Navigation = () => {
     const locationPermissionsMountedRef = useRef(false)
     const mapMountedRef = useRef(false)
 
-    const [stopGeoWatch, setStopGeoWatch] = useState(false)
+    const [startGeoWatch, setStartGeoWatch] = useState(false)
 
     const navigate = useNavigate()
 
-    const {geoWatchID, id} = useGeoLocationWatcher(stopGeoWatch)
+    const {geoWatchID, id} = useGeoLocationWatcher(startGeoWatch)
 
     useEffect(()=> {
         navigate('/requestbutton')
@@ -60,17 +60,13 @@ const Navigation = () => {
                         Coordinates of This Device: {geoWatchID ? [geoWatchID.coords.latitude, ',', geoWatchID.coords.longitude] : '.....'}
                     </div>
                     <div className={classes.tickerCopy}>
-                        Watch Position Tick Count: {id} {stopGeoWatch ? '[PAUSED]' : null}
+                       <span>Watch Position Tick Count:</span> <span className={classes.id}>{id}</span> {startGeoWatch ? '[5s interval]' : '[PAUSED]'}
                     </div>
                     <div className={classes.geoWatchSwitch}>
-                        {stopGeoWatch ? 'Start' : 'Stop'} Geo Watch: &gt;
+                        {startGeoWatch ? 'Stop' : 'Start'} Geo Watch: &gt;
                         <Switch
-                            // defaultChecked
                             onChange={() => {
-                                setStopGeoWatch(!stopGeoWatch)
-                                if(!stopGeoWatch) {
-                                    navigate('/requestbutton')
-                                }
+                                setStartGeoWatch(!startGeoWatch)
                             }}
                         />
                     </div>
@@ -87,7 +83,6 @@ const Navigation = () => {
 
 const useStyles = makeStyles()((_, props) => ({
     coordWrapper: {
-        position: 'relative',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
@@ -106,11 +101,14 @@ const useStyles = makeStyles()((_, props) => ({
     },
     tickerCopy: {
        textAlign: 'left',
-       marginLeft: '5px'
+       marginLeft: '5px',
     },
     geoWatchSwitch: {
         textAlign: 'left',
         marginLeft: '5px'
+    },
+    id: {
+        color: '#ED2290',
     }
 }))
 
