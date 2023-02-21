@@ -44,6 +44,7 @@ const Navigation = () => {
                 // if(!locationPermissionsMountedRef.current) {
                     navigate('/locationpermissions')
                 // }
+                navigator.geolocation.clearWatch(id)
             }
         )
         console.log('watch tick: ', id)
