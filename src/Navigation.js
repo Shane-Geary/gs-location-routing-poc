@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react'
+import {useEffect, useRef, useState} from 'react'
 
 import LocationPermissions from './LocationPermissions'
 import GlowstikMap from './GlowstikMap'
@@ -13,6 +13,8 @@ const Navigation = () => {
     // Holding boolean value to determine whether device is android
 	const androidDeviceRef = useRef(null)
 
+    const [geoWatchID, setGeoWatchID] = useState(null)
+
     const navigate = useNavigate()
 
     useEffect(()=> {
@@ -25,10 +27,53 @@ const Navigation = () => {
 		androidDeviceRef.current = isAndroid
     }, [])
 
+    const locationRequest = async () => {
+        try{
+            const geoPosition = await new Promise((resolve, reject) => {
+                navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
+            })
+            console.log(geoPosition)
+            navigate('/')
+        }
+        catch(error) {
+            console.log(error)
+            navigate('/locationpermissions')
+        }
+    }
+
+    const geoWatchTimer = () => {
+        const id = navigator.geolocation.watchPosition(
+            (success) => {
+                console.log(success)
+                setGeoWatchID(success)
+                navigate('/')
+            },
+            (error) => {
+                console.log(error)
+                navigate('/locationpermissions')
+            }
+        )
+        locationRequest()
+        console.log('watch tick: ', id)
+        console.log(geoWatchID)
+    }
+
+    useEffect(() => {
+        const watchID = setInterval(geoWatchTimer, 3000)
+
+        console.log(geoWatchID)
+
+        return () => {
+            clearInterval(watchID)
+            navigator.geolocation.clearWatch(watchID)
+            console.log('end watch')
+        }
+    }, [geoWatchID])
+
     return (
         <Routes>
             <Route path='requestbutton' exact element={
-                <RequestButton />
+                <RequestButton geoWatchID={geoWatchID} />
             }/>
             <Route path='locationpermissions' exact element={
                 <LocationPermissions iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} />

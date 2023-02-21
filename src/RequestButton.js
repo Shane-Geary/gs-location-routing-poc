@@ -4,46 +4,24 @@ import {useNavigate} from "react-router-dom"
 
 // TODO: Have interval - at the start, register geo watch - at the end, de-register watch and run request - if that returns denied, re-route to LocationPermissions
 
-const RequestButton = () => {
+const RequestButton = ({geoWatchID}) => {
 
     const navigate = useNavigate()
 
-    const [geoWatchID, setGeoWatchID] = useState({id: 0})
+    // const locationRequest = async () => {
+    //     try{
+    //         const geoPosition = await new Promise((resolve, reject) => {
+    //             navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
+    //         })
+    //         console.log(geoPosition)
+    //         navigate('/')
+    //     }
+    //     catch(error) {
+    //         console.log(error)
+    //         navigate('/locationpermissions')
+    //     }
+    // }
 
-    const locationRequest = async () => {
-        try{
-        const geoPosition = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
-        })
-        console.log(geoPosition)
-        navigate('/')
-        }
-        catch(error) {
-        console.log(error)
-        navigate('/locationpermissions')
-        }
-    }
-
-    useEffect(() => {
-        const watchId = navigator.geolocation.watchPosition((success, error) => {
-            console.log(success)
-            setGeoWatchID({id: success})
-        })
-        const geoWatchInterval = setInterval(() => {
-            locationRequest()
-            navigator.geolocation.clearWatch(watchId)
-        }, 5000)
-
-        console.log(geoWatchInterval)
-        console.log(geoWatchID)
-
-        return () => {
-            clearInterval(geoWatchInterval)
-            navigator.geolocation.clearWatch(watchId)
-        }
-    }, [])
-
-    // console.log(geoWatchID)
 
     return (
         <div
@@ -62,16 +40,16 @@ const RequestButton = () => {
                     position: 'absolute',
                 }}
             >
-                Watch ID: {geoWatchID.id.toString()}
+                Watch ID: {geoWatchID !== null ? [geoWatchID.coords.latitude, geoWatchID.coords.longitude] : '...'}
             </div>
             <button
                 style={{
                     position: 'absolute',
                     alignSelf: 'center'
                 }}
-                onClick={() => {
-                    locationRequest()
-                }}
+                // onClick={() => {
+                //     locationRequest()
+                // }}
             >
                 Request Location
             </button>
