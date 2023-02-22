@@ -98,7 +98,7 @@ const useStyles = makeStyles()((_, props) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        marginTop: '20px',
+        marginTop: '20px'
     },
     coordCopyWrapper: {
         border: '2px solid black',

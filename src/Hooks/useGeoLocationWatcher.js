@@ -17,6 +17,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
     const [id, setId] = useState(null)
 
     useEffect(() => {
+        // Function that runs at a regular interval to watch for the user's location.
         const geoWatchTimer = () => {
             const watchID = navigator.geolocation.watchPosition(
                 (success) => {
@@ -32,7 +33,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
                     navigator.geolocation.clearWatch(watchID)
                 }
             )
-            console.log('watch tick: ', watchID)
+            console.log('geo watch tick: ', watchID)
             setId(watchID)
         }
         let watchIDInterval = null
