@@ -1,11 +1,12 @@
-import {useEffect, useRef, useState, useMemo} from 'react'
+import {useRef, useState, useMemo} from 'react'
 
 import LocationPermissions from './LocationPermissions'
 import GlowstikMap from './GlowstikMap'
 import RequestButton from './RequestButton'
 import {useGeoLocationWatcher} from './Hooks/useGeoLocationWatcher'
+import {useDeviceInfo} from './Hooks/useDeviceInfo'
 
-import {Routes, Route, useNavigate} from 'react-router-dom'
+import {Routes, Route} from 'react-router-dom'
 import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
 import {Switch} from '@mui/material'
 
@@ -22,8 +23,8 @@ const Navigation = () => {
 	)
 
     // Refs to hold boolean values to determine device type.
-	const iosDeviceRef = useRef(null)
-	const androidDeviceRef = useRef(null)
+	// const iosDeviceRef = useRef(null)
+	// const androidDeviceRef = useRef(null)
 
     // Refs to hold boolean values that determine whether components have mounted.
     const locationPermissionsMountedRef = useRef(null)
@@ -32,33 +33,23 @@ const Navigation = () => {
     // State that determines whether to start or stop geolocation watcher.
     const [startGeoWatch, setStartGeoWatch] = useState(false)
 
-    // Instantiate useNavigate hook and store return value in a const
-    const navigate = useNavigate()
+    // Instantiate useNavigate hook and store return value in a const.
+    // const navigate = useNavigate()
 
     // Call useGeoLocationWatcher hook to get geolocation data.
     const {geoWatchID, id} = useGeoLocationWatcher(startGeoWatch)
 
-    useEffect(()=> {
-        // Navigate to RequestButton page on mount.
-        navigate('/requestbutton')
+    // Call useDeviceInfo hook to get user's device.
+    const {iosDevice, androidDevice, navigateHome} = useDeviceInfo()
 
-        // Determine whether device is an iOS or Android device.
-        let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
-		iosDeviceRef.current = isIOS
-
-        const isAndroid = /Android/i.test(navigator.userAgent)
-		androidDeviceRef.current = isAndroid
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    // Memoized components to prevent uneccessary re-renders
+    // Memoized components to prevent uneccessary re-renders.
     const RequestButtonMemo = useMemo(() => (
         <RequestButton />
     ), [])
 
     const LocationPermissionsMemo = useMemo(() => (
-        <LocationPermissions iosDeviceRef={iosDeviceRef} androidDeviceRef={androidDeviceRef} locationPermissionsMountedRef={locationPermissionsMountedRef} />
-    ), [iosDeviceRef, androidDeviceRef, locationPermissionsMountedRef])
+        <LocationPermissions iosDevice={iosDevice} androidDevice={androidDevice} locationPermissionsMountedRef={locationPermissionsMountedRef} />
+    ), [iosDevice, androidDevice, locationPermissionsMountedRef])
 
     const GlowstikMapMemo = useMemo(() => (
         <GlowstikMap mapMountedRef={mapMountedRef} />

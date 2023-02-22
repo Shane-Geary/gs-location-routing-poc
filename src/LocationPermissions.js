@@ -10,7 +10,7 @@ This component renders a screen for location permissions, depending on the user'
 * @returns {function} - React functional component
 */
 
-const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermissionsMountedRef}) => {
+const LocationPermissions = ({iosDevice, androidDevice, locationPermissionsMountedRef}) => {
     console.log('location screen')
 
     // Call useStyles hook and store the return value in a const
@@ -29,10 +29,10 @@ const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermission
     return (
         <div className={classes.wrapper}>
             <div className={classes.container}>
-                {iosDeviceRef.current && 'LOCATION PERMISSIONS IOS'}
-                {androidDeviceRef.current && 'LOCATION PERMSSIONS ANDROID'}
+                {iosDevice.current && 'LOCATION PERMISSIONS IOS'}
+                {androidDevice.current && 'LOCATION PERMSSIONS ANDROID'}
                 {
-                    !iosDeviceRef.current && !androidDeviceRef.current ?
+                    !iosDevice && !androidDevice ?
                     'LOCATION PERMISSIONS'
                     :
                     null
