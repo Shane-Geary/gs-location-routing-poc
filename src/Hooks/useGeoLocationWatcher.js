@@ -3,7 +3,7 @@ import {useEffect, useState} from "react"
 import {useNavigate} from "react-router-dom"
 
 /**
- * Hook that uses Geolocation API to continuously watch for the user's location.
+ * Custom React hook that uses Geolocation API to continuously watch for the user's location.
  * @param {boolean} startGeoWatch - A boolean that indicates whether or not to start watching for location.
  * @returns {Object} An object with the IDs of the geolocation watch and interval.
  */
