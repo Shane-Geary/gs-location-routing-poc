@@ -3,6 +3,11 @@ import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
 
 // TODO: Have interval - at the start, register geo watch - at the end, de-register watch and run request - if that returns denied, re-route to LocationPermissions
 
+/**
+* Renders a button that, when clicked, prompts the user for geolocation and navigates to home page if successful or location permissions page if not
+* @returns {function} - React functional component
+*/
+
 const RequestButton = () => {
 
     const navigate = useNavigate()
@@ -12,6 +17,7 @@ const RequestButton = () => {
 		{}
 	)
 
+    // Prompts the user for geolocation and navigates to Glowstik map if successful or location permissions page if not
     const locationRequest = async () => {
         try{
             const geoPosition = await new Promise((resolve, reject) => {

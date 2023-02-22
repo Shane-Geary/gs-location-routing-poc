@@ -2,7 +2,13 @@ import {useEffect} from "react"
 
 import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
 
-const GlowstikMap = ({mapMountedRef, geoWatchID}) => {
+/**
+* This component renders a GlowstikMap component
+* @param {object} mapMountedRef - A React ref to track the component's mount status
+* @returns {function} - React functional component
+*/
+
+const GlowstikMap = ({mapMountedRef}) => {
     console.log('MAP')
 
     // Call useStyles hook and store the return value in a const
@@ -15,6 +21,7 @@ const GlowstikMap = ({mapMountedRef, geoWatchID}) => {
         return () => {
             mapMountedRef.current = false
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

@@ -2,6 +2,13 @@ import {useEffect, useState} from "react"
 
 import {useNavigate} from "react-router-dom"
 
+/**
+ * Hook that uses Geolocation API to continuously watch for the user's location.
+ * @param {boolean} startGeoWatch - A boolean that indicates whether or not to start watching for location.
+ * @returns {Object} An object with the IDs of the geolocation watch and interval.
+ */
+
+
 export const useGeoLocationWatcher = (startGeoWatch) => {
 
     const navigate = useNavigate()
@@ -39,6 +46,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
             navigator.geolocation.clearWatch(id)
             console.log('end watch')
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [startGeoWatch])
 
     return {geoWatchID, id}

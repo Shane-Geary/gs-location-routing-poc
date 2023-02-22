@@ -2,6 +2,14 @@ import {useEffect} from "react"
 
 import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
 
+/**
+This component renders a screen for location permissions, depending on the user's device
+* @param {Object} iosDeviceRef - Reference to a ref object for iOS devices
+* @param {Object} androidDeviceRef - Reference to a ref object for Android devices
+* @param {Object} locationPermissionsMountedRef - Reference to a ref object for location permissions component
+* @returns {function} - React functional component
+*/
+
 const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermissionsMountedRef}) => {
     console.log('location screen')
 
@@ -15,6 +23,7 @@ const LocationPermissions = ({iosDeviceRef, androidDeviceRef, locationPermission
         return () => {
             locationPermissionsMountedRef.current = false
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
