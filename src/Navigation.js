@@ -98,15 +98,15 @@ const useStyles = makeStyles()((_, props) => ({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        marginTop: '20px'
+        marginTop: '20px',
     },
     coordCopyWrapper: {
         border: '2px solid black',
         borderRadius: '10px',
-        width: '30%',
+        width: '50%',
         alignSelf: 'center',
         lineHeight: '200%',
-        backgroundColor: 'rgba(128, 128, 128, .4)'
+        backgroundColor: 'rgba(128, 128, 128, .4)',
     },
     coordCopy: {
         textDecoration: 'underline'
