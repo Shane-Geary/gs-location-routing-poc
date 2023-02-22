@@ -18,7 +18,19 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
 
     useEffect(() => {
         // Function that runs at a regular interval to watch for the user's location.
-        const geoWatchTimer = () => {
+        const geoWatchTimer = async () => {
+
+            const {state} = await navigator.permissions.query({name: 'geolocation'})
+            console.log(state)
+
+            if (state !== 'granted') {
+                console.log('Location permission denied')
+                navigate('/locationpermissions')
+                clearInterval(watchIDInterval)
+                return
+              }
+        
+
             const watchID = navigator.geolocation.watchPosition(
                 (success) => {
                     console.log(success)
