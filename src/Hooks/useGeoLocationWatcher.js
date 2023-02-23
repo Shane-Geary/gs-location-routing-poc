@@ -20,9 +20,8 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
     const [id, setId] = useState(null)
 
     useEffect(() => {
-        // Function that runs at a regular interval to watch for the user's location.
-        let counter = 0
-        const geoWatchTimer = () => {
+        const geoWatchTimer = (counter) => {
+            let newCounter = counter
             // Watch for the user's position using the Geolocation API.
             const watchID = navigator.geolocation.watchPosition(
                 // On success, set coordinates to geoWatchID state, navigate to map, clear watch and reset counter to 0
@@ -32,7 +31,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
                     setId(watchID)
                     navigate('/')
                     navigator.geolocation.clearWatch(watchID)
-                    counter = 0
+                    newCounter = 0
                 },
                 // On error, set geoWatchID back to null, navigate to LocationPermissions, clear watch and reset counter to 0
                 (error) => {
@@ -40,14 +39,14 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
                     setGeoWatchID(null)
                     navigate('/locationpermissions')
                     navigator.geolocation.clearWatch(watchID)
-                    counter = 0
+                    newCounter = 0
                 }
             )
             console.log('geo watch tick: ', watchID)
             // This will keep track of the number of calls made to watch geolocation
             setId(watchID)
 
-            counter++
+            newCounter++
 
             // If no response is received after 5 attempts, redirect to the location permissions page.
             if(counter >= 5) {
@@ -55,21 +54,25 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
                 setGeoWatchID(null)
                 navigate('/locationpermissions')
                 navigator.geolocation.clearWatch(watchID)
-                counter = 0
+                newCounter = 0
             }
+            return newCounter
         }
-        let watchIDInterval = null
-        // Start the geolocation watch interval if startGeoWatch is true.
         if(startGeoWatch) {
-            watchIDInterval = setInterval(geoWatchTimer, 5000)
-        }
-        console.log(watchIDInterval)
+            // Function that runs at a regular interval to watch for the user's location.
+            let counter = 0
+            // Start the geolocation watch interval if startGeoWatch is true.
+            const watchIDInterval = setInterval(()=>{
+                counter = geoWatchTimer(counter)
+            }, 5000)
+            console.log(watchIDInterval)
 
-        // Clear the interval and the geolocation watch on unmount.
-        return () => {
-            clearInterval(watchIDInterval)
-            navigator.geolocation.clearWatch(id)
-            console.log('end watch')
+            // Clear the interval and the geolocation watch on unmount.
+            return () => {
+                clearInterval(watchIDInterval)
+                navigator.geolocation.clearWatch(id)
+                console.log('end watch')
+            }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [startGeoWatch])
