@@ -17,5 +17,5 @@ export const useDeviceInfo = () => {
         androidDeviceRef.current = isAndroid
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    return {iosDevice: iosDeviceRef.current, androidDevice: androidDeviceRef.current, navigateHome: navigate}
+    return {iosDevice: iosDeviceRef.current, androidDevice: androidDeviceRef.current}
 }

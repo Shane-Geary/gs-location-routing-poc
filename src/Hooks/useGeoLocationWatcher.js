@@ -31,6 +31,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
                 },
                 (error) => {
                     console.log(error)
+                    setGeoWatchID(null)
                     navigate('/locationpermissions')
                     navigator.geolocation.clearWatch(watchID)
                     counter = 0
