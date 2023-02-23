@@ -11,7 +11,7 @@ import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
 import {Switch} from '@mui/material'
 
 /**
- * This component renders when waiting for geolocation from the user's device.
+ * This component renders when waiting for geolocation from the user's device and handles routing.
  * @returns {function} React functional component
  */
 

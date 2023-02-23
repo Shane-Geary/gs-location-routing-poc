@@ -8,6 +8,8 @@ import {useNavigate} from "react-router-dom"
  * @returns {Object} An object with the IDs of the geolocation watch and interval.
  */
 
+// TODO: Convert watchPosition to async syntax
+
 
 export const useGeoLocationWatcher = (startGeoWatch) => {
 
@@ -50,6 +52,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
             // If no response is received after 5 attempts, redirect to the location permissions page.
             if(counter >= 5) {
                 console.log('error: no response from geolocation')
+                setGeoWatchID(null)
                 navigate('/locationpermissions')
                 navigator.geolocation.clearWatch(watchID)
                 counter = 0
