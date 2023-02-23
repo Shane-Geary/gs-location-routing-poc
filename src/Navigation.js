@@ -22,10 +22,6 @@ const Navigation = () => {
 		{}
 	)
 
-    // Refs to hold boolean values to determine device type.
-	// const iosDeviceRef = useRef(null)
-	// const androidDeviceRef = useRef(null)
-
     // Refs to hold boolean values that determine whether components have mounted.
     const locationPermissionsMountedRef = useRef(null)
     const mapMountedRef = useRef(null)
@@ -33,14 +29,11 @@ const Navigation = () => {
     // State that determines whether to start or stop geolocation watcher.
     const [startGeoWatch, setStartGeoWatch] = useState(false)
 
-    // Instantiate useNavigate hook and store return value in a const.
-    // const navigate = useNavigate()
-
     // Call useGeoLocationWatcher hook to get geolocation data.
     const {geoWatchID, id} = useGeoLocationWatcher(startGeoWatch)
 
     // Call useDeviceInfo hook to get user's device.
-    const {iosDevice, androidDevice, navigateHome} = useDeviceInfo()
+    const {iosDevice, androidDevice} = useDeviceInfo()
 
     // Memoized components to prevent uneccessary re-renders.
     const RequestButtonMemo = useMemo(() => (

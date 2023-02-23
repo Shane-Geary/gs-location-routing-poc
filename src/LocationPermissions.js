@@ -29,8 +29,8 @@ const LocationPermissions = ({iosDevice, androidDevice, locationPermissionsMount
     return (
         <div className={classes.wrapper}>
             <div className={classes.container}>
-                {iosDevice.current && 'LOCATION PERMISSIONS IOS'}
-                {androidDevice.current && 'LOCATION PERMSSIONS ANDROID'}
+                {iosDevice && 'LOCATION PERMISSIONS IOS'}
+                {androidDevice && 'LOCATION PERMSSIONS ANDROID'}
                 {
                     !iosDevice && !androidDevice ?
                     'LOCATION PERMISSIONS'
