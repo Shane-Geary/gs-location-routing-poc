@@ -1,19 +1,11 @@
 import {useEffect, useState} from "react"
 
-// TODO: Convert watchPosition to async syntax - The watchPosition call does not naturally return a promise. Attempting to wrap this call in a promise and restructure accordingly to async/await syntax has resulted in the set interval not ticking at it's time signature as we are having to await the geo location on success in order to continue the logic. 
-
-/** Info on this provided by ChatGPT - 'If your use case is to run watchPosition at a regular interval, then using callbacks might be more appropriate than wrapping it in a promise. This is because watchPosition continuously watches for the user's position, and using a callback allows you to receive updates whenever the position changes.
-
-Using a promise with watchPosition would only provide a single update of the user's position, rather than continuous updates. This could result in outdated location information if the user moves after the initial promise resolves.
-
-However, if you do decide to use callbacks, it's important to make sure that you clear the watch using clearWatch when the component unmounts, to prevent unnecessary resource usage.'
-*/
 
 /**
  * Custom React hook that uses Geolocation API to continuously watch for the user's location.
  * @param {boolean} startGeoWatch - A boolean that indicates whether or not to start watching for location.
  * @param {function} onSuccess - A callback function that will be called when the geolocation watch is successful.
- * @param {function} onError -  A callback function that will be called when the geolocation watch encounters an error.
+ * @param {function} onError - A callback function that will be called when the geolocation watch encounters an error.
  * @returns {Object} An object with the IDs of the geolocation watch and interval.
  */
 
@@ -26,9 +18,9 @@ export const useGeoLocationWatcher = (startGeoWatch, onSuccess, onError) => {
 
     useEffect(() => {
 		let newCounter = 0
-        const geoWatchTimer = (counter) => {
+        const geoWatchTimer = async (counter) => {
             // Watch for the user's position using the Geolocation API.
-            const watchID = navigator.geolocation.watchPosition(
+            const watchID = await navigator.geolocation.watchPosition(
                 // On success, set coordinates to geoWatchID state, call the onSuccess callback, clear watch and reset counter to 0
                 (success) => {
                     console.log(success)
