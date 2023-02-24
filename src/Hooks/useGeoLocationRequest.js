@@ -23,5 +23,6 @@ export const useGeoLocationRequest = (onSuccess, onError) => {
             onError()
         }
     }
+
     return locationRequest
 }

@@ -34,11 +34,13 @@ const Navigation = () => {
     // Call useDeviceInfo hook to get user's device.
     const {iosDevice, androidDevice} = useDeviceInfo()
 
+    // Callback invoked from useGeolocationWatcher hook when response is success.
     const onSuccess = (position) => {
         console.log(position)
         navigate('/*')
     }
 
+    // Callback invoked from useGeolocationWatcher hook when response is error.
     const onError = (error) => {
         console.log(error)
         navigate('/locationpermissions')
