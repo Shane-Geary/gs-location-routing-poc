@@ -16,12 +16,10 @@ export const useGeoLocationRequest = (onSuccess, onError) => {
                 navigator.geolocation.getCurrentPosition(resolve, reject, {enableHighAccuracy: true})
             })
             console.log(geoPosition)
-            // navigate('/')
             onSuccess()
         }
         catch(error) {
             console.log(error)
-            // navigate('/locationpermissions')
             onError()
         }
     }
