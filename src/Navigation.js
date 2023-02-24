@@ -6,7 +6,7 @@ import RequestButton from './RequestButton'
 import {useGeoLocationWatcher} from './Hooks/useGeoLocationWatcher'
 import {useDeviceInfo} from './Hooks/useDeviceInfo'
 
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, useNavigate} from 'react-router-dom'
 import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
 import {Switch} from '@mui/material'
 
@@ -22,6 +22,8 @@ const Navigation = () => {
 		{}
 	)
 
+    const navigate = useNavigate()
+
     // Refs to hold boolean values that determine whether components have mounted.
     const locationPermissionsMountedRef = useRef(null)
     const mapMountedRef = useRef(null)
@@ -29,8 +31,18 @@ const Navigation = () => {
     // State that determines whether to start or stop geolocation watcher.
     const [startGeoWatch, setStartGeoWatch] = useState(false)
 
+    const onSuccess = (position) => {
+        console.log(position)
+        navigate('/*')
+    }
+
+    const onError = (error) => {
+        console.log(error)
+        navigate('/locationpermissions')
+    }
+
     // Call useGeoLocationWatcher hook to get geolocation data.
-    const {geoWatchID, id} = useGeoLocationWatcher(startGeoWatch)
+    const {geoWatchID, id} = useGeoLocationWatcher(startGeoWatch, onSuccess, onError)
 
     // Call useDeviceInfo hook to get user's device.
     const {iosDevice, androidDevice} = useDeviceInfo()

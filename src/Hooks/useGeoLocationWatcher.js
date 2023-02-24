@@ -1,14 +1,12 @@
 import {useEffect, useState} from "react"
 
-import {useNavigate} from "react-router-dom"
-
 /**
  * Custom React hook that uses Geolocation API to continuously watch for the user's location.
  * @param {boolean} startGeoWatch - A boolean that indicates whether or not to start watching for location.
  * @returns {Object} An object with the IDs of the geolocation watch and interval.
  */
 
-// TODO: Convert watchPosition to async syntax - The watchPosition call does not return a promise. Attempting to wrap this call in a promise and restructure accordingly to async/await syntax has resulted in the set interval not ticking at it's time signature as we are having to await the geo location on success in order to continue the logic. 
+// TODO: Convert watchPosition to async syntax - The watchPosition call does not naturally return a promise. Attempting to wrap this call in a promise and restructure accordingly to async/await syntax has resulted in the set interval not ticking at it's time signature as we are having to await the geo location on success in order to continue the logic. 
 
 /** Info on this provided by ChatGPT - 'If your use case is to run watchPosition at a regular interval, then using callbacks might be more appropriate than wrapping it in a promise. This is because watchPosition continuously watches for the user's position, and using a callback allows you to receive updates whenever the position changes.
 
@@ -18,9 +16,7 @@ However, if you do decide to use callbacks, it's important to make sure that you
 */
 
 
-export const useGeoLocationWatcher = (startGeoWatch) => {
-
-    const navigate = useNavigate()
+export const useGeoLocationWatcher = (startGeoWatch, onSuccess, onError) => {
 
     // State variables for the geolocation watch ID and interval ID
     const [geoWatchID, setGeoWatchID] = useState(null)
@@ -36,7 +32,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
                     console.log(success)
                     setGeoWatchID(success)
                     setId(watchID)
-                    navigate('/')
+					onSuccess(success)
                     navigator.geolocation.clearWatch(watchID)
                     newCounter = 0
                 },
@@ -44,7 +40,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
                 (error) => {
                     console.log(error)
                     setGeoWatchID(null)
-                    navigate('/locationpermissions')
+					onError(error)
                     navigator.geolocation.clearWatch(watchID)
                     newCounter = 0
                 }
@@ -60,7 +56,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
             if(counter >= 5) {
                 console.log('error: no response from geolocation')
                 setGeoWatchID(null)
-                navigate('/locationpermissions')
+				onError()
                 navigator.geolocation.clearWatch(watchID)
                 newCounter = 0
             }
