@@ -18,9 +18,9 @@ export const useGeoLocationWatcher = (startGeoWatch, onSuccess, onError) => {
 
     useEffect(() => {
 		let newCounter = 0
-        const geoWatchTimer = async (counter) => {
+        const geoWatchTimer = (counter) => {
             // Watch for the user's position using the Geolocation API.
-            const watchID = await navigator.geolocation.watchPosition(
+            const watchID = navigator.geolocation.watchPosition(
                 // On success, set coordinates to geoWatchID state, call the onSuccess callback, clear watch and reset counter to 0
                 (success) => {
                     console.log(success)
