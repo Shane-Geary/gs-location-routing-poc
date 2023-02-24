@@ -20,8 +20,8 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
     const [id, setId] = useState(null)
 
     useEffect(() => {
+		let newCounter = 0
         const geoWatchTimer = (counter) => {
-            let newCounter = counter
             // Watch for the user's position using the Geolocation API.
             const watchID = navigator.geolocation.watchPosition(
                 // On success, set coordinates to geoWatchID state, navigate to map, clear watch and reset counter to 0
@@ -47,6 +47,7 @@ export const useGeoLocationWatcher = (startGeoWatch) => {
             setId(watchID)
 
             newCounter++
+			console.log(counter)
 
             // If no response is received after 5 attempts, redirect to the location permissions page.
             if(counter >= 5) {
