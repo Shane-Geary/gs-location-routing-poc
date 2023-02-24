@@ -1,6 +1,7 @@
 import {useGeoLocationRequest} from "./Hooks/useGeoLocationRequest"
 
 import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
+import {useNavigate} from "react-router-dom"
 
 // TODO: Have interval - at the start, register geo watch - at the end, de-register watch and run request - if that returns denied, re-route to LocationPermissions
 
@@ -10,13 +11,25 @@ import {makeStyles} from 'tss-react/mui' // https://react-redux.js.org/
 */
 
 const RequestButton = () => {
-    
-    const geoLocationRequest = useGeoLocationRequest()
 
     // Call useStyles hook and store the return value in a const
 	const {classes} = useStyles(
 		{}
 	)
+
+    const navigate = useNavigate()
+
+    const onSuccess = (position) => {
+        console.log(position)
+        navigate('/*')
+    }
+
+    const onError = (error) => {
+        console.log(error)
+        navigate('/locationpermissions')
+    }
+
+    const geoLocationRequest = useGeoLocationRequest(onSuccess, onError)
 
     return (
         <div className={classes.wrapper}>

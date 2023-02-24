@@ -31,6 +31,9 @@ const Navigation = () => {
     // State that determines whether to start or stop geolocation watcher.
     const [startGeoWatch, setStartGeoWatch] = useState(false)
 
+    // Call useDeviceInfo hook to get user's device.
+    const {iosDevice, androidDevice} = useDeviceInfo()
+
     const onSuccess = (position) => {
         console.log(position)
         navigate('/*')
@@ -43,9 +46,6 @@ const Navigation = () => {
 
     // Call useGeoLocationWatcher hook to get geolocation data.
     const {geoWatchID, id} = useGeoLocationWatcher(startGeoWatch, onSuccess, onError)
-
-    // Call useDeviceInfo hook to get user's device.
-    const {iosDevice, androidDevice} = useDeviceInfo()
 
     // Memoized components to prevent uneccessary re-renders.
     const RequestButtonMemo = useMemo(() => (

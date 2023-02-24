@@ -1,11 +1,5 @@
 import {useEffect, useState} from "react"
 
-/**
- * Custom React hook that uses Geolocation API to continuously watch for the user's location.
- * @param {boolean} startGeoWatch - A boolean that indicates whether or not to start watching for location.
- * @returns {Object} An object with the IDs of the geolocation watch and interval.
- */
-
 // TODO: Convert watchPosition to async syntax - The watchPosition call does not naturally return a promise. Attempting to wrap this call in a promise and restructure accordingly to async/await syntax has resulted in the set interval not ticking at it's time signature as we are having to await the geo location on success in order to continue the logic. 
 
 /** Info on this provided by ChatGPT - 'If your use case is to run watchPosition at a regular interval, then using callbacks might be more appropriate than wrapping it in a promise. This is because watchPosition continuously watches for the user's position, and using a callback allows you to receive updates whenever the position changes.
@@ -14,6 +8,12 @@ Using a promise with watchPosition would only provide a single update of the use
 
 However, if you do decide to use callbacks, it's important to make sure that you clear the watch using clearWatch when the component unmounts, to prevent unnecessary resource usage.'
 */
+
+/**
+ * Custom React hook that uses Geolocation API to continuously watch for the user's location.
+ * @param {boolean} startGeoWatch - A boolean that indicates whether or not to start watching for location.
+ * @returns {Object} An object with the IDs of the geolocation watch and interval.
+ */
 
 
 export const useGeoLocationWatcher = (startGeoWatch, onSuccess, onError) => {
